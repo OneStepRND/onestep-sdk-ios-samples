@@ -30,9 +30,9 @@ struct MainView: View {
     //Fill in your details before you can successfully start the app.
     func connectUser() {
         Task{
-            try? await sdk.initialize(appId: "YOUR-APP-ID",
-                                      apiKey: "YOUR-API-KEY",
-                                      distinctId: "YOUR-CUSTOME-USER-ID")
+            try? await sdk.initialize(appId: "<YOUR-APP-ID-HERE>",
+                                      apiKey: "<YOUR-API-KEY-HERE>",
+                                      distinctId: "<A-UUID-FOR CURRENT-USER-HERE>")
         }
     }
     

@@ -6,12 +6,23 @@
 //
 
 import SwiftUI
+import OneStepSDK
 
 @main
 struct OneStepSDK_SampleApp: App {
+    
+    //Fill in your details before you can successfully start the app.
+    init(){
+        Task{
+            try? await OneStepSDKCore.shared.initialize(appId: "<YOUR-APP-ID-HERE>",
+                                              apiKey: "<YOUR-API-KEY-HERE>",
+                                              distinctId: "<A-UUID-FOR CURRENT-USER-HERE>")
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainView(viewModel: MainViewViewModel())
         }
     }
 }

@@ -10,27 +10,45 @@ import CoreMotion
 import AVFoundation
 
 class PermissionsUtils {
-    static func isMotionAndFitnessAuthorized() -> Bool {
+    
+    static func allPermissionsInPlace() -> Bool {
+        if !isMotionAndFitnessAuthorized() {
+            requestMotionAndFitnessAuthorized()
+            return false
+        } else if !isLocationWhenInUseAuthorized() && !isLocationAlwaysAuthorized() {
+            requestLocationAuthorization()
+            return false
+        } else if isLocationWhenInUseAuthorized() && !isLocationAlwaysAuthorized() {
+            requestLocationAlways()
+            return false
+        }
+        
+        return true
+    }
+    
+    private static func isMotionAndFitnessAuthorized() -> Bool {
         return CMMotionActivityManager.authorizationStatus() == CMAuthorizationStatus.authorized
     }
     
-    static func isLocationAlwaysAuthorized() -> Bool {
-        return CLLocationManager().authorizationStatus == CLAuthorizationStatus.authorizedAlways
-    }
-    
-    static func isLocationWhenInUseAuthorized() -> Bool {
+    private static func isLocationWhenInUseAuthorized() -> Bool {
         return CLLocationManager().authorizationStatus == CLAuthorizationStatus.authorizedWhenInUse
     }
     
-    static func isPreciseLocationAuthorized() -> Bool {
-        return CLLocationManager().accuracyAuthorization == CLAccuracyAuthorization.fullAccuracy
+    private static func isLocationAlwaysAuthorized() -> Bool {
+        return CLLocationManager().authorizationStatus == CLAuthorizationStatus.authorizedAlways
     }
     
-    static func requestLocationAuthorization(){
+    private static func requestLocationAuthorization(){
         CLLocationManager().requestWhenInUseAuthorization()
     }
     
-    static func requestLocationAlways() {
+    private static func requestLocationAlways() {
         CLLocationManager().requestAlwaysAuthorization()
+    }
+    
+    private static func requestMotionAndFitnessAuthorized() {
+        CMMotionActivityManager().startActivityUpdates(to: .main, withHandler: { br in
+            
+        })
     }
 }

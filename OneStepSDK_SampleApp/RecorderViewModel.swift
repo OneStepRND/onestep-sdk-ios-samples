@@ -18,7 +18,8 @@ class RecorderViewModel: ObservableObject {
     @Published var time: Int = 0
     @Published var recorderState = "Initial"
     @Published var currentRecordingUUID: UUID? = nil
-    @Published var cancellables = Set<AnyCancellable>()
+    @Published var recorderSubscriber: Cancellable? = nil
+    @Published var timerSubscriber: Cancellable? = nil
     @Published var isLoadingResult: Bool = false
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
@@ -31,8 +32,10 @@ class RecorderViewModel: ObservableObject {
     /// Developer responsibility: handling recorder state machine (i.e not calling `start` when already recording)
     /// Developer responsibility: Making sure that motion and location permissions are granted and usage descriptions are in place in info.plist
     ///
+    /// NOTE: Currently recording will start only when you give motion and fitness persmission and location always persmission when it's asked on Start recording.
+    ///
     func startRecording() {
-        cancellables.removeAll()
+        recorderSubscriber?.cancel()
         failedToAnalyze = false
         walkScore = nil
         stepsCount = nil
@@ -41,7 +44,7 @@ class RecorderViewModel: ObservableObject {
         self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: nil, customMetadata: nil)
         startRecordingTimer()
         
-        self.recorder.recorderState.receive(on: RunLoop.main).sink(receiveValue: { recorderState in
+        self.recorderSubscriber = self.recorder.recorderState.receive(on: RunLoop.main).sink(receiveValue: { recorderState in
             self.recorderState = "\(recorderState)"
             switch recorderState {
             case .idle:
@@ -86,7 +89,8 @@ class RecorderViewModel: ObservableObject {
                             self.failedToAnalyze = true
                         }
                     }
-                    self.cancellables.removeAll()
+                    self.isLoadingResult = false
+                    self.recorderSubscriber?.cancel()
                     self.recorderState = "Initial"
                 }
             case .error(let errorType):
@@ -95,7 +99,7 @@ class RecorderViewModel: ObservableObject {
             default:
                 break
             }
-        }).store(in: &cancellables)
+        })
     }
     
     //Manually stop recording before duration time is out.
@@ -104,10 +108,11 @@ class RecorderViewModel: ObservableObject {
         isLoadingResult = true
         
         recorder.stop()
+        self.timerSubscriber?.cancel()
     }
     
     private func startRecordingTimer() {
-        timer.map({ (date) -> Void in
+        self.timerSubscriber = timer.map({ (date) -> Void in
             self.time += 1
         })
         .sink { _ in
@@ -115,7 +120,6 @@ class RecorderViewModel: ObservableObject {
                 self.timer.upstream.connect().cancel()
             }
         }
-        .store(in: &cancellables)
     }
 }
 

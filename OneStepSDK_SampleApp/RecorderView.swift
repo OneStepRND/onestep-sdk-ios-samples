@@ -18,23 +18,29 @@ struct RecorderView: View {
                 .font(.title)
                 .padding(.top, 20)
                 .padding(.bottom, 70)
-            CustomButton(
-                title: viewModel.recordingInProgress ? "Stop and analyze" : "Start recording",
-                action: {
-                    if viewModel.recordingInProgress {
-                        viewModel.stopInAppRecordingAndUpload()
-                    } else {
-                        if !PermissionsUtils.isPreciseLocationAuthorized() {
-                            PermissionsUtils.requestLocationAuthorization()
-                        }
-                        if !PermissionsUtils.isLocationAlwaysAuthorized() {
-                            PermissionsUtils.requestLocationAlways()
-                        }
-                        viewModel.startRecording()
-                    }
-                },
-                isActivated: viewModel.recordingInProgress, height: 100)
+            
+            Button(action: {
+                //Currently recording will start only when you give motion and fitness persmission and location always persmission
+                if PermissionsUtils.allPermissionsInPlace() {
+                    viewModel.startRecording()
+                }
+            }, label: {
+                Text("Start recording")
+                    .font(.title)
+            })
+            .disabled(viewModel.recordingInProgress || viewModel.isLoadingResult)
             .padding(.bottom, 30)
+            
+            
+            Button(action: {
+                viewModel.stopInAppRecordingAndUpload()
+            }, label: {
+                Text("Stop recording")
+                    .font(.title)
+            })
+            .disabled(!viewModel.recordingInProgress)
+            .padding(.bottom, 30)
+            
             
             Text("Timer: \(viewModel.time)")
                 .padding(.bottom, 10)
@@ -64,18 +70,6 @@ struct RecorderView: View {
             Spacer()
         }
         .padding()
-    }
-}
-
-struct ActivityIndicator: UIViewRepresentable {
-    typealias UIView = UIActivityIndicatorView
-    var isAnimating: Bool
-    fileprivate var configuration = { (indicator: UIView) in }
-    
-    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIView { UIView() }
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<Self>) {
-        isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
-        configuration(uiView)
     }
 }
 

@@ -85,6 +85,11 @@ struct MainView: View {
         }
     }
     
+    /// Start recording a new session: timed walk (60 seconds - parameter set inside).
+    ///
+    /// Developer responsibility: handling recorder state machine (i.e not calling `start` when already recording)
+    /// Developer responsibility: Making sure that motion and location permissions are granted and usage descriptions are in place in info.plist
+    ///
     func startRecording() {
         failedToAnalyze = false
         walkScore = nil
@@ -111,9 +116,14 @@ struct MainView: View {
                     if let walkScore = result?.parameters?["walk_score"], let steps = result?.metadata?.steps{
                         self.walkScore = Int(walkScore)
                         self.stepsCount = steps
+                    } else {
+                        failedToAnalyze = true
                     }
                     self.recorderState = "Initial"
                 }
+            case .error(let errorType):
+                //Do something based on error type
+                break
             default:
                 break
             }

@@ -32,12 +32,13 @@ class RecorderViewModel: ObservableObject {
     /// Developer responsibility: Making sure that motion and location permissions are granted and usage descriptions are in place in info.plist
     ///
     func startRecording() {
+        cancellables.removeAll()
         failedToAnalyze = false
         walkScore = nil
         stepsCount = nil
         time = 0
-        self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: nil, customMetadata: ["": ""])
         recordingInProgress = true
+        self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: nil, customMetadata: nil)
         startRecordingTimer()
         
         self.recorder.recorderState.receive(on: RunLoop.main).sink(receiveValue: { recorderState in
@@ -78,14 +79,14 @@ class RecorderViewModel: ObservableObject {
                         }
                         
                         //update UI
-                        if let walkScore = self.walkScore, let steps = result.metadata?.steps {
+                        if let walkScore = result.parameters?["walk_score"], let steps = result.metadata?.steps {
                             self.walkScore = Int(walkScore)
                             self.stepsCount = steps
                         } else {
                             self.failedToAnalyze = true
                         }
                     }
-                    
+                    self.cancellables.removeAll()
                     self.recorderState = "Initial"
                 }
             case .error(let errorType):
@@ -103,7 +104,6 @@ class RecorderViewModel: ObservableObject {
         isLoadingResult = true
         
         recorder.stop()
-        cancellables.removeAll()
     }
     
     private func startRecordingTimer() {

@@ -24,13 +24,11 @@ struct RecorderView: View {
                     if viewModel.recordingInProgress {
                         viewModel.stopInAppRecordingAndUpload()
                     } else {
-                        guard !PermissionsUtils.isPreciseLocationAuthorized() else {
+                        if !PermissionsUtils.isPreciseLocationAuthorized() {
                             PermissionsUtils.requestLocationAuthorization()
-                            return
                         }
-                        guard !PermissionsUtils.isLocationAlwaysAuthorized() else {
+                        if !PermissionsUtils.isLocationAlwaysAuthorized() {
                             PermissionsUtils.requestLocationAlways()
-                            return
                         }
                         viewModel.startRecording()
                     }

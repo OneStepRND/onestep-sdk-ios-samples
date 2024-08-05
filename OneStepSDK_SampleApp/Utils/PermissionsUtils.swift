@@ -18,6 +18,10 @@ class PermissionsUtils {
         return CLLocationManager().authorizationStatus == CLAuthorizationStatus.authorizedAlways
     }
     
+    static func isLocationWhenInUseAuthorized() -> Bool {
+        return CLLocationManager().authorizationStatus == CLAuthorizationStatus.authorizedWhenInUse
+    }
+    
     static func isPreciseLocationAuthorized() -> Bool {
         return CLLocationManager().accuracyAuthorization == CLAccuracyAuthorization.fullAccuracy
     }
@@ -28,5 +32,5 @@ class PermissionsUtils {
     
     static func requestLocationAlways() {
         CLLocationManager().requestAlwaysAuthorization()
-    }    
+    }
 }

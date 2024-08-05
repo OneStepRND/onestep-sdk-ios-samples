@@ -9,8 +9,7 @@ import Foundation
 import OneStepSDK
 import Combine
 
-class MainViewViewModel: ObservableObject {
-    let sdk: OneStepSDKInterface
+class RecorderViewModel: ObservableObject {
     let recorder: OneStepSimpleRecorderProtocol
     @Published var recordingInProgress: Bool = false
     @Published var failedToAnalyze = false
@@ -23,9 +22,8 @@ class MainViewViewModel: ObservableObject {
     @Published var isLoadingResult: Bool = false
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
-    init(sdk: OneStepSDKInterface = OneStepSDKCore.shared){
-        self.sdk = sdk
-        self.recorder = self.sdk.getRecorderService()
+    init(recorder: OneStepSimpleRecorderProtocol){
+        self.recorder = recorder
     }
     
     /// Start recording a new session: timed walk (60 seconds - parameter set inside).

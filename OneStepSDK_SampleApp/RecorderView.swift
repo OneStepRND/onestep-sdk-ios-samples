@@ -9,8 +9,8 @@ import SwiftUI
 import Combine
 
 
-struct MainView: View {
-    @ObservedObject var viewModel: MainViewViewModel
+struct RecorderView: View {
+    @ObservedObject var viewModel: RecorderViewModel
     
     var body: some View {
         VStack {

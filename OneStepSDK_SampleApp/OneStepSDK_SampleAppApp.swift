@@ -10,9 +10,11 @@ import OneStepSDK
 
 @main
 struct OneStepSDK_SampleApp: App {
+    let sdk: OneStepSDKInterface
     
     //Fill in your details before you can successfully start the app.
     init(){
+        sdk = OneStepSDKCore.shared
         Task{
             try? await OneStepSDKCore.shared.initialize(appId: "<YOUR-APP-ID-HERE>",
                                               apiKey: "<YOUR-API-KEY-HERE>",
@@ -22,7 +24,7 @@ struct OneStepSDK_SampleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: MainViewViewModel())
+            RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecorderService()))
         }
     }
 }

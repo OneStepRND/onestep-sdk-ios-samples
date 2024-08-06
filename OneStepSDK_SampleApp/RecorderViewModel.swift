@@ -22,6 +22,7 @@ class RecorderViewModel: ObservableObject {
     @Published var timerSubscriber: Cancellable? = nil
     @Published var isLoadingResult: Bool = false
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
+    @Published var recorderResultText: String = ""
     
     init(recorder: OneStepSimpleRecorderProtocol){
         self.recorder = recorder
@@ -35,14 +36,14 @@ class RecorderViewModel: ObservableObject {
     /// NOTE: Currently recording will start only when you give motion and fitness persmission and location always persmission when it's asked on Start recording.
     ///
     func startRecording() {
-        recorderSubscriber?.cancel()
-        failedToAnalyze = false
-        walkScore = nil
-        stepsCount = nil
-        time = 0
-        recordingInProgress = true
-        self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: nil, customMetadata: nil)
-        startRecordingTimer()
+        DispatchQueue.main.async{
+            self.recorderResultText = ""
+            self.failedToAnalyze = false
+            self.walkScore = nil
+            self.stepsCount = nil
+            self.time = 0
+            self.recordingInProgress = true
+        }
         
         self.recorderSubscriber = self.recorder.recorderState.receive(on: RunLoop.main).sink(receiveValue: { recorderState in
             self.recorderState = "\(recorderState)"
@@ -85,12 +86,15 @@ class RecorderViewModel: ObservableObject {
                         if let walkScore = result.parameters?["walk_score"], let steps = result.metadata?.steps {
                             self.walkScore = Int(walkScore)
                             self.stepsCount = steps
+                            self.recorderResultText = "Success! \n Walk score: \(self.walkScore!) \n Steps count: \(self.stepsCount!)"
                         } else {
+                            self.walkScore = nil
+                            self.stepsCount = nil
                             self.failedToAnalyze = true
+                            self.recorderResultText = "Did not get either walk score or steps count. \n Perform a real walk of at least 30 seconds, please."
                         }
                     }
                     self.isLoadingResult = false
-                    self.recorderSubscriber?.cancel()
                     self.recorderState = "Initial"
                 }
             case .error(let errorType):
@@ -100,12 +104,15 @@ class RecorderViewModel: ObservableObject {
                 break
             }
         })
+        self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: nil, customMetadata: nil)
+        startRecordingTimer()
     }
     
     //Manually stop recording before duration time is out.
-    func stopInAppRecordingAndUpload() {
+    func stopInAppRecording() {
         recordingInProgress = false
         isLoadingResult = true
+        recorderResultText = "Loading result..."
         
         recorder.stop()
         self.timerSubscriber?.cancel()

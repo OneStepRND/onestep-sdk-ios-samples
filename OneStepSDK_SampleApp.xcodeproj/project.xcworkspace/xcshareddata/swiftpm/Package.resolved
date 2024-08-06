@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OneStepRND/onestep-sdk-ios",
       "state" : {
-        "branch" : "main",
-        "revision" : "f32d9c4b1d126fbc98305e1cb5409b8a2eb0528d"
+        "revision" : "f32d9c4b1d126fbc98305e1cb5409b8a2eb0528d",
+        "version" : "0.3.0"
       }
     }
   ],

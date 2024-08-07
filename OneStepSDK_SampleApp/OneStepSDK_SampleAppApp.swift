@@ -12,6 +12,7 @@ import OneStepSDK
 struct OneStepSDK_SampleApp: App {
     let sdk: OneStepSDKInterface
     @State var connected = false
+    @State var failedToConnect = false
     let ncm = NetworkConnectionMonitor()
     
     //Fill in your details before you can successfully start the app.
@@ -26,10 +27,11 @@ struct OneStepSDK_SampleApp: App {
                     RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecorderService()))
                 } else {
                     VStack{
-                        Text("Connecting to OneStep...")
+                        Text(failedToConnect ? "Oops... Connection attempt failed... Restart app to reconnect": "Connecting to OneStep...")
                             .font(.title2)
-                        ActivityIndicator(isAnimating: true)
+                            .padding(.top, 20)
                         
+                        ActivityIndicator(isAnimating: !failedToConnect)
                     }
                 }
             }
@@ -37,11 +39,14 @@ struct OneStepSDK_SampleApp: App {
                 while !ncm.networkConnected {
                     print("Waiting for network...")
                 }
-                
-                try? await OneStepSDKCore.shared.initialize(appId: "<YOUR-APP-ID-HERE>",
-                                                            apiKey: "<YOUR-API-KEY-HERE>",
-                                                            distinctId: "<A-UUID-FOR CURRENT-USER-HERE>")
-                self.connected = true
+                let connectionResult = await OneStepSDKCore.shared.initialize(appId: "<YOUR-APP-ID-HERE>",
+                                                                              apiKey: "<YOUR-API-KEY-HERE>",
+                                                                              distinctId: "<A-UUID-FOR CURRENT-USER-HERE>")
+                if connectionResult {
+                    self.connected = true
+                } else {
+                    self.failedToConnect = true
+                }
             }
         }
     }

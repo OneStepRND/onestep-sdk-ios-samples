@@ -42,7 +42,8 @@ struct OneStepSDK_SampleApp: App {
                 let connectionResult = await OneStepSDKCore.shared.initialize(appId: "<YOUR-APP-ID-HERE>",
                                                                               apiKey: "<YOUR-API-KEY-HERE>",
                                                                               distinctId: "<A-UUID-FOR CURRENT-USER-HERE>",
-                                                                              identityVerification: "<YOUR-IDENTITY-VERIFICATION-SECRET-HERE> // Activate this in production")
+                                                                              identityVerification: "<YOUR-IDENTITY-VERIFICATION-SECRET-HERE> // Activate this in production or send nil")
+                                
                 if connectionResult {
                     self.connected = true
                 } else {

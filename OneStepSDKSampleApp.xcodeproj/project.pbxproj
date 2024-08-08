@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA161B542C63849C00144286 /* OneStepSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA161B532C63849C00144286 /* OneStepSDK.framework */; };
+		FA161B552C63849C00144286 /* OneStepSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA161B532C63849C00144286 /* OneStepSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA3F90A22C60EEB1003BEF25 /* RecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F90A12C60EEB1003BEF25 /* RecorderViewModel.swift */; };
 		FA3F90A82C60FDFF003BEF25 /* PermissionsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F90A72C60FDFF003BEF25 /* PermissionsUtils.swift */; };
 		FA3F90AA2C617286003BEF25 /* NetworkConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F90A92C617286003BEF25 /* NetworkConnectionMonitor.swift */; };
@@ -15,20 +17,34 @@
 		FA8139042C5BADC500F23218 /* RecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8139032C5BADC500F23218 /* RecorderView.swift */; };
 		FA8139062C5BADC600F23218 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8139052C5BADC600F23218 /* Assets.xcassets */; };
 		FA8139092C5BADC600F23218 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8139082C5BADC600F23218 /* Preview Assets.xcassets */; };
-		FAAD9A392C5FE36000199D5F /* OneStepSDKiOS in Frameworks */ = {isa = PBXBuildFile; productRef = FAAD9A382C5FE36000199D5F /* OneStepSDKiOS */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		FA161B562C63849C00144286 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FA161B552C63849C00144286 /* OneStepSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		FA161B532C63849C00144286 /* OneStepSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OneStepSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3F90A12C60EEB1003BEF25 /* RecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderViewModel.swift; sourceTree = "<group>"; };
 		FA3F90A72C60FDFF003BEF25 /* PermissionsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsUtils.swift; sourceTree = "<group>"; };
 		FA3F90A92C617286003BEF25 /* NetworkConnectionMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionMonitor.swift; sourceTree = "<group>"; };
 		FA3F90AB2C617B48003BEF25 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
-		FA8138FE2C5BADC500F23218 /* OneStepSDK_SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneStepSDK_SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA8138FE2C5BADC500F23218 /* OneStepSDKSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneStepSDKSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8139012C5BADC500F23218 /* OneStepSDK_SampleAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneStepSDK_SampleAppApp.swift; sourceTree = "<group>"; };
 		FA8139032C5BADC500F23218 /* RecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderView.swift; sourceTree = "<group>"; };
 		FA8139052C5BADC600F23218 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA8139082C5BADC600F23218 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		FA8139122C5BAEA300F23218 /* OneStepSDK_SampleApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneStepSDK_SampleApp-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FA8139122C5BAEA300F23218 /* OneStepSDKSampleApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneStepSDKSampleApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,13 +52,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAAD9A392C5FE36000199D5F /* OneStepSDKiOS in Frameworks */,
+				FA161B542C63849C00144286 /* OneStepSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA161B522C63849C00144286 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA161B532C63849C00144286 /* OneStepSDK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FA3F90A62C60FDF0003BEF25 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -58,13 +82,14 @@
 			children = (
 				FA8139002C5BADC500F23218 /* OneStepSDK_SampleApp */,
 				FA8138FF2C5BADC500F23218 /* Products */,
+				FA161B522C63849C00144286 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		FA8138FF2C5BADC500F23218 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA8138FE2C5BADC500F23218 /* OneStepSDK_SampleApp.app */,
+				FA8138FE2C5BADC500F23218 /* OneStepSDKSampleApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,7 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				FA3F90A62C60FDF0003BEF25 /* Utils */,
-				FA8139122C5BAEA300F23218 /* OneStepSDK_SampleApp-Info.plist */,
+				FA8139122C5BAEA300F23218 /* OneStepSDKSampleApp-Info.plist */,
 				FA8139012C5BADC500F23218 /* OneStepSDK_SampleAppApp.swift */,
 				FA8139032C5BADC500F23218 /* RecorderView.swift */,
 				FA3F90A12C60EEB1003BEF25 /* RecorderViewModel.swift */,
@@ -94,24 +119,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FA8138FD2C5BADC500F23218 /* OneStepSDK_SampleApp */ = {
+		FA8138FD2C5BADC500F23218 /* OneStepSDKSampleApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA81390C2C5BADC600F23218 /* Build configuration list for PBXNativeTarget "OneStepSDK_SampleApp" */;
+			buildConfigurationList = FA81390C2C5BADC600F23218 /* Build configuration list for PBXNativeTarget "OneStepSDKSampleApp" */;
 			buildPhases = (
 				FA8138FA2C5BADC500F23218 /* Sources */,
 				FA8138FB2C5BADC500F23218 /* Frameworks */,
 				FA8138FC2C5BADC500F23218 /* Resources */,
+				FA161B562C63849C00144286 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = OneStepSDK_SampleApp;
+			name = OneStepSDKSampleApp;
 			packageProductDependencies = (
-				FAAD9A382C5FE36000199D5F /* OneStepSDKiOS */,
 			);
 			productName = OneStepSDKPackageFRMWK_SampleApp;
-			productReference = FA8138FE2C5BADC500F23218 /* OneStepSDK_SampleApp.app */;
+			productReference = FA8138FE2C5BADC500F23218 /* OneStepSDKSampleApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -129,7 +154,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FA8138F92C5BADC500F23218 /* Build configuration list for PBXProject "OneStepSDK_SampleApp" */;
+			buildConfigurationList = FA8138F92C5BADC500F23218 /* Build configuration list for PBXProject "OneStepSDKSampleApp" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -139,13 +164,12 @@
 			);
 			mainGroup = FA8138F52C5BADC500F23218;
 			packageReferences = (
-				FAAD9A372C5FE35F00199D5F /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */,
 			);
 			productRefGroup = FA8138FF2C5BADC500F23218 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FA8138FD2C5BADC500F23218 /* OneStepSDK_SampleApp */,
+				FA8138FD2C5BADC500F23218 /* OneStepSDKSampleApp */,
 			);
 		};
 /* End PBXProject section */
@@ -309,7 +333,7 @@
 				DEVELOPMENT_TEAM = 55WPGZLRF5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "OneStepSDK_SampleApp-Info.plist";
+				INFOPLIST_FILE = "OneStepSDKSampleApp-Info.plist";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = Location;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = Location;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = Location;
@@ -344,7 +368,7 @@
 				DEVELOPMENT_TEAM = 55WPGZLRF5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "OneStepSDK_SampleApp-Info.plist";
+				INFOPLIST_FILE = "OneStepSDKSampleApp-Info.plist";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = Location;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = Location;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = Location;
@@ -371,7 +395,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FA8138F92C5BADC500F23218 /* Build configuration list for PBXProject "OneStepSDK_SampleApp" */ = {
+		FA8138F92C5BADC500F23218 /* Build configuration list for PBXProject "OneStepSDKSampleApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA81390A2C5BADC600F23218 /* Debug */,
@@ -380,7 +404,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA81390C2C5BADC600F23218 /* Build configuration list for PBXNativeTarget "OneStepSDK_SampleApp" */ = {
+		FA81390C2C5BADC600F23218 /* Build configuration list for PBXNativeTarget "OneStepSDKSampleApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA81390D2C5BADC600F23218 /* Debug */,
@@ -390,25 +414,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FAAD9A372C5FE35F00199D5F /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/OneStepRND/onestep-sdk-ios";
-			requirement = {
-				kind = exactVersion;
-				version = 0.3.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FAAD9A382C5FE36000199D5F /* OneStepSDKiOS */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FAAD9A372C5FE35F00199D5F /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */;
-			productName = OneStepSDKiOS;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA8138F62C5BADC500F23218 /* Project object */;
 }

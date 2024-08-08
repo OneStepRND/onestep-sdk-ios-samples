@@ -24,7 +24,7 @@ struct OneStepSDK_SampleApp: App {
         WindowGroup {
             VStack{
                 if connected {
-                    RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecorderService()))
+                    RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecorderService(), analyzer: self.sdk.getAnalyzerService()))
                 } else {
                     VStack{
                         Text(failedToConnect ? "Oops... Connection attempt failed... Restart app to reconnect": "Connecting to OneStep...")

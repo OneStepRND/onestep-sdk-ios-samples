@@ -15,10 +15,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FA17DC472C5A5EED00FB08EF"
+               BuildableName = "OneStepSDK.framework"
+               BlueprintName = "OneStepSDK"
+               ReferencedContainer = "container:../onestep-sdk-ios-framework/OneStepSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "FA8138FD2C5BADC500F23218"
-               BuildableName = "OneStepSDK_SampleApp.app"
-               BlueprintName = "OneStepSDK_SampleApp"
-               ReferencedContainer = "container:OneStepSDK_SampleApp.xcodeproj">
+               BuildableName = "OneStepSDKSampleApp.app"
+               BlueprintName = "OneStepSDKSampleApp"
+               ReferencedContainer = "container:OneStepSDKSampleApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +59,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA8138FD2C5BADC500F23218"
-            BuildableName = "OneStepSDK_SampleApp.app"
-            BlueprintName = "OneStepSDK_SampleApp"
-            ReferencedContainer = "container:OneStepSDK_SampleApp.xcodeproj">
+            BuildableName = "OneStepSDKSampleApp.app"
+            BlueprintName = "OneStepSDKSampleApp"
+            ReferencedContainer = "container:OneStepSDKSampleApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA8138FD2C5BADC500F23218"
-            BuildableName = "OneStepSDK_SampleApp.app"
-            BlueprintName = "OneStepSDK_SampleApp"
-            ReferencedContainer = "container:OneStepSDK_SampleApp.xcodeproj">
+            BuildableName = "OneStepSDKSampleApp.app"
+            BlueprintName = "OneStepSDKSampleApp"
+            ReferencedContainer = "container:OneStepSDKSampleApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

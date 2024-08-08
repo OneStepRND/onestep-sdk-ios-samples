@@ -11,21 +11,24 @@ import Combine
 
 class RecorderViewModel: ObservableObject {
     let recorder: OneStepSimpleRecorderProtocol
+    let analyzer: OneStepSimpleAnalyzerProtocol
     @Published var recordingInProgress: Bool = false
     @Published var failedToAnalyze = false
     @Published var walkScore: Int? = nil
     @Published var stepsCount: Int? = nil
     @Published var time: Int = 0
-    @Published var recorderState = "Initial"
+    @Published var uiState = "Initial"
     @Published var currentRecordingUUID: UUID? = nil
     @Published var recorderSubscriber: Cancellable? = nil
+    @Published var analyzerSubscriber: Cancellable? = nil
     @Published var timerSubscriber: Cancellable? = nil
     @Published var isLoadingResult: Bool = false
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     @Published var recorderResultText: String = ""
     
-    init(recorder: OneStepSimpleRecorderProtocol){
+    init(recorder: OneStepSimpleRecorderProtocol, analyzer: OneStepSimpleAnalyzerProtocol){
         self.recorder = recorder
+        self.analyzer = analyzer
     }
     
     /// Start recording a new session: timed walk (60 seconds - parameter set inside).
@@ -45,28 +48,20 @@ class RecorderViewModel: ObservableObject {
             self.recordingInProgress = true
         }
         
-        self.recorderSubscriber = self.recorder.recorderState.receive(on: RunLoop.main).sink(receiveValue: { recorderState in
-            self.recorderState = "\(recorderState)"
-            switch recorderState {
+        self.analyzerSubscriber = self.analyzer.analyzerState.receive(on: RunLoop.main).sink(receiveValue: { analyzerState in
+            self.uiState = "\(analyzerState.title)"
+            switch analyzerState {
             case .idle:
                 break
-            case .recording(let recordingUUID):
-                self.currentRecordingUUID = recordingUUID
-            case .finishedRecording:
-                if let uuid = self.currentRecordingUUID {
-                    self.recorder.analyze(uuid: uuid)
-                }
-                self.recordingInProgress = false
-                self.recorder.reset()
             case .analyzing(let analyzingState):
                 //analyzingState indicated 3 stages of recording inProgress, generatingReport, preparingResult
                 break
             case .analyzedAndSavedSuccessfully:
                 if let uuid = self.currentRecordingUUID {
-                    if let result = self.recorder.getSummaryForMeasurement(uuid: uuid) {
+                    if let result = self.analyzer.readMotionMeasurementById(uuid: uuid) {
                         switch result.result_state {
                         case 0:
-                            print("Analysis error: \(result.error)")
+                            print("Analysis error: \(String(describing: result.error))")
                             break
                         case 1:
                             print("Parital analysis result is available")
@@ -75,7 +70,7 @@ class RecorderViewModel: ObservableObject {
                             print("Full analysis result is avilable")
                             let steps = result.metadata?.steps ?? 0
                             let walkScore = result.parameters?["walk_score"]  // todo: migrate to ParamName enum
-                            print("measurementId=\(result.id) - steps=\(steps) - walkScore=\(walkScore)")
+                            print("measurementId=\(result.id) - steps=\(steps) - walkScore=\(String(describing: walkScore))")
                             break
                         default:
                             print("Analysis result is not available")
@@ -95,7 +90,7 @@ class RecorderViewModel: ObservableObject {
                         }
                     }
                     self.isLoadingResult = false
-                    self.recorderState = "Initial"
+                    self.uiState = "Initial"
                 }
             case .error(let errorType):
                 //Do something based on error type
@@ -104,7 +99,46 @@ class RecorderViewModel: ObservableObject {
                 break
             }
         })
-        self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: nil, customMetadata: nil)
+        
+        self.recorderSubscriber = self.recorder.recorderState.receive(on: RunLoop.main).sink(receiveValue: { recorderState in
+            self.uiState = "\(recorderState.title)"
+            switch recorderState {
+            case .idle:
+                break
+            case .recording(let recordingUUID):
+                self.currentRecordingUUID = recordingUUID
+            case .finishedRecording:
+                if let uuid = self.currentRecordingUUID {
+                    self.analyzer.analyze(uuid: uuid)
+                }
+                self.recordingInProgress = false
+                self.recorder.reset()
+            case .error(let errorType):
+                //Do something based on error type
+                break
+            default:
+                break
+            }
+        })
+        
+        // Optional user tagging of the activity including free-text note, tags,
+        // and domain specific enums like assistive device and level of assistance.
+        let userInputMetadata = MeasurementMetadataOut(locale: "IL",
+                                                       seconds: 60,
+                                                       steps: 55,
+                                                       geoLat: nil,
+                                                       geoLng: nil,
+                                                       tags: ["tag1", "tag2", "tag3"],
+                                                       note: "this is a free-text note",
+                                                       levelOfAssistance: .independent,
+                                                       assistiveDevice: .cane)
+        
+        // Technical key-value properties that will be propagate to the measurement result.
+        // Supporting types like Bool, Int, String, Double, AnyCodable
+        let customMetadata: Dictionary<String, MixedType> = ["app": .string("DemoApp") , "is_demo": .bool(true), "version": .double(1.1)]
+        
+        self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: userInputMetadata, customMetadata: customMetadata)
+        
         startRecordingTimer()
     }
     

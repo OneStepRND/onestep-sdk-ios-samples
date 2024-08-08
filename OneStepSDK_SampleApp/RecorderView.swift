@@ -46,7 +46,7 @@ struct RecorderView: View {
                 .padding(.bottom, 10)
                 .font(.largeTitle)
             
-            Text("Recorder state: \(viewModel.recorderState)")
+            Text("Recorder state: \(viewModel.uiState)")
                 .padding(.bottom, 10)
                 .font(.title3)
             

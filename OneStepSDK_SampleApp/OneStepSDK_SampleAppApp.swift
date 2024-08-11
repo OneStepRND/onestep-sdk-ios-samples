@@ -10,7 +10,7 @@ import OneStepSDK
 
 @main
 struct OneStepSDK_SampleApp: App {
-    let sdk: OneStepSDKInterface
+    let sdk: OSTCoreInterface
     @State var connected = false
     @State var failedToConnect = false
     let ncm = NetworkConnectionMonitor()
@@ -24,7 +24,7 @@ struct OneStepSDK_SampleApp: App {
         WindowGroup {
             VStack{
                 if connected {
-                    RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecorderService(), analyzer: self.sdk.getAnalyzerService()))
+                    RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecordingService()))
                 } else {
                     VStack{
                         Text(failedToConnect ? "Oops... Connection attempt failed... Restart app to reconnect": "Connecting to OneStep...")
@@ -39,10 +39,15 @@ struct OneStepSDK_SampleApp: App {
                 while !ncm.networkConnected {
                     print("Waiting for network...")
                 }
-                let connectionResult = await OneStepSDKCore.shared.initialize(appId: "<YOUR-APP-ID-HERE>",
-                                                                              apiKey: "<YOUR-API-KEY-HERE>",
-                                                                              distinctId: "<A-UUID-FOR CURRENT-USER-HERE>",
-                                                                              identityVerification: "<YOUR-IDENTITY-VERIFICATION-SECRET-HERE> // Activate this in production or send nil")
+//                let connectionResult = await OneStepSDKCore.shared.initialize(appId: "<YOUR-APP-ID-HERE>",
+//                                                                              apiKey: "<YOUR-API-KEY-HERE>",
+//                                                                              distinctId: "<A-UUID-FOR CURRENT-USER-HERE>",
+//                                                                              identityVerification: "<YOUR-IDENTITY-VERIFICATION-SECRET-HERE> // Activate this in production or send nil")
+                
+                let connectionResult = await OneStepSDKCore.shared.initialize(appId: "33f8adda-c11b-4e40-a6b8-3a3c70d44b18",
+                                                                                              apiKey: "m2QcXXaznyfv5Rv8JOBI9yi8u7yaStNgC2MyafPhpR4",
+                                                                                              distinctId: "davidPackageDev",
+                                                                                              identityVerification: nil)
                                 
                 if connectionResult {
                     self.connected = true

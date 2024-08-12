@@ -28,12 +28,12 @@ struct RecorderView: View {
                 Text("Start recording")
                     .font(.title)
             })
-            .disabled(viewModel.recordingInProgress || viewModel.isLoadingResult)
+            .disabled(viewModel.recordingInProgress || viewModel.analyzingInProgress)
             .padding(.bottom, 30)
             
             
             Button(action: {
-                viewModel.stopInAppRecording()
+                viewModel.stopRecording()
             }, label: {
                 Text("Stop recording")
                     .font(.title)
@@ -46,7 +46,7 @@ struct RecorderView: View {
                 .padding(.bottom, 10)
                 .font(.largeTitle)
             
-            Text("Recorder state: \(viewModel.uiState)")
+            Text("State: \(viewModel.uiState)")
                 .padding(.bottom, 10)
                 .font(.title3)
             
@@ -54,8 +54,8 @@ struct RecorderView: View {
                 .font(.title2)
                 .padding(.bottom, 30)
             
-            if viewModel.isLoadingResult {
-                ActivityIndicator(isAnimating: viewModel.isLoadingResult)
+            if viewModel.analyzingInProgress {
+                ActivityIndicator(isAnimating: viewModel.analyzingInProgress)
                     .background(Color.black)
                     .frame(width: 50, height: 50)
             }

@@ -7,31 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA161B542C63849C00144286 /* OneStepSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA161B532C63849C00144286 /* OneStepSDK.framework */; };
-		FA161B552C63849C00144286 /* OneStepSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA161B532C63849C00144286 /* OneStepSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA3F90A22C60EEB1003BEF25 /* RecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F90A12C60EEB1003BEF25 /* RecorderViewModel.swift */; };
 		FA3F90A82C60FDFF003BEF25 /* PermissionsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F90A72C60FDFF003BEF25 /* PermissionsUtils.swift */; };
 		FA3F90AA2C617286003BEF25 /* NetworkConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F90A92C617286003BEF25 /* NetworkConnectionMonitor.swift */; };
 		FA3F90AC2C617B48003BEF25 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3F90AB2C617B48003BEF25 /* ActivityIndicator.swift */; };
+		FA5DEC822C6A6E5A00C7BF71 /* OneStepSDKiOS in Frameworks */ = {isa = PBXBuildFile; productRef = FA5DEC812C6A6E5A00C7BF71 /* OneStepSDKiOS */; };
 		FA8139022C5BADC500F23218 /* OneStepSDK_SampleAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8139012C5BADC500F23218 /* OneStepSDK_SampleAppApp.swift */; };
 		FA8139042C5BADC500F23218 /* RecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8139032C5BADC500F23218 /* RecorderView.swift */; };
 		FA8139062C5BADC600F23218 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8139052C5BADC600F23218 /* Assets.xcassets */; };
 		FA8139092C5BADC600F23218 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8139082C5BADC600F23218 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		FA161B562C63849C00144286 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				FA161B552C63849C00144286 /* OneStepSDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FA161B532C63849C00144286 /* OneStepSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = OneStepSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA161B542C63849C00144286 /* OneStepSDK.framework in Frameworks */,
+				FA5DEC822C6A6E5A00C7BF71 /* OneStepSDKiOS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,7 +111,6 @@
 				FA8138FA2C5BADC500F23218 /* Sources */,
 				FA8138FB2C5BADC500F23218 /* Frameworks */,
 				FA8138FC2C5BADC500F23218 /* Resources */,
-				FA161B562C63849C00144286 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -134,6 +118,7 @@
 			);
 			name = OneStepSDKSampleApp;
 			packageProductDependencies = (
+				FA5DEC812C6A6E5A00C7BF71 /* OneStepSDKiOS */,
 			);
 			productName = OneStepSDKPackageFRMWK_SampleApp;
 			productReference = FA8138FE2C5BADC500F23218 /* OneStepSDKSampleApp.app */;
@@ -164,6 +149,7 @@
 			);
 			mainGroup = FA8138F52C5BADC500F23218;
 			packageReferences = (
+				FA5DEC802C6A6E5A00C7BF71 /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */,
 			);
 			productRefGroup = FA8138FF2C5BADC500F23218 /* Products */;
 			projectDirPath = "";
@@ -414,6 +400,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA5DEC802C6A6E5A00C7BF71 /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OneStepRND/onestep-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA5DEC812C6A6E5A00C7BF71 /* OneStepSDKiOS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA5DEC802C6A6E5A00C7BF71 /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */;
+			productName = OneStepSDKiOS;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA8138F62C5BADC500F23218 /* Project object */;
 }

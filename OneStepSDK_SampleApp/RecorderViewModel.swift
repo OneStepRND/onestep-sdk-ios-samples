@@ -152,8 +152,8 @@ class RecorderViewModel: ObservableObject {
                 DispatchQueue.main.async{
                     switch result.result_state {
                     case 0:
-                        print("Empty Analysis: \(result.error?.code)")
-                        self.recorderResultText = "Empty Analysis:\n error=\(result.error?.message ?? "N/A")"
+                        print("Empty Analysis: \(result.error.debugDescription)")
+                        self.recorderResultText = "Empty Analysis:\n error=\(result.error.debugDescription)"
                     case 1:
                         print("Parital analysis result is available")
                         let steps = result.metadata?.steps ?? 0

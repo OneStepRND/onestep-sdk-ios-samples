@@ -14,7 +14,7 @@ struct RecorderView: View {
     
     var body: some View {
         VStack {
-            Text("OneStep Walk recorder")
+            Text("OneStep Sample: Motion Recorder")
                 .font(.title)
                 .padding(.top, 20)
                 .padding(.bottom, 70)

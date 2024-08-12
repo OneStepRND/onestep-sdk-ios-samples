@@ -17,7 +17,6 @@ class RecorderViewModel: ObservableObject {
     @Published var stepsCount: Int? = nil
     @Published var time: Int = 0
     @Published var uiState = "Initial"
-    @Published var currentRecordingUUID: UUID? = nil
     @Published var recorderSubscriber: Cancellable? = nil
     @Published var analyzerSubscriber: Cancellable? = nil
     @Published var timerSubscriber: Cancellable? = nil
@@ -46,19 +45,15 @@ class RecorderViewModel: ObservableObject {
             self.recordingInProgress = true
         }
         
-        
-        
         self.recorderSubscriber = self.recorder.recorderState.receive(on: RunLoop.main).sink(receiveValue: { recorderState in
             self.uiState = "\(recorderState.title)"
             switch recorderState {
             case .idle:
                 break
             case .recording(let recordingUUID):
-                self.currentRecordingUUID = recordingUUID
+                break
             case .finishedRecording:
-                if let uuid = self.currentRecordingUUID {
-                    self.startAnalyzingFlow(uuid: uuid)
-                }
+                self.startAnalyzingFlow()
                 self.recordingInProgress = false
                 self.recorder.reset()
             case .error(let errorType):
@@ -71,19 +66,31 @@ class RecorderViewModel: ObservableObject {
         
         // Optional user tagging of the activity including free-text note, tags,
         // and domain specific enums like assistive device and level of assistance.
-        let userInputMetadata = UserInputMetaData(note: "this is a free-text note", tags: ["tag1", "tag2", "tag3"],
-                                                  assistiveDevice: .cane, levelOfAssistance: .independent)
-        
+        let userInputMetadata = UserInputMetaData(
+            note: "this is a free-text note",
+            tags: ["tag1", "tag2", "tag3"],
+            assistiveDevice: .cane,
+            levelOfAssistance: .independent
+        )
         // Technical key-value properties that will be propagate to the measurement result.
-        // Supporting types like Bool, Int, String, Double, AnyCodable
-        let customMetadata: Dictionary<String, MixedType> = ["app": .string("DemoApp") , "is_demo": .bool(true), "version": .double(1.1)]
-        
-        self.recorder.start(activityType: .Walk, duration: 60, userInputMetadata: userInputMetadata, customMetadata: customMetadata)
+        // Supporting primitive types: Bool, Int, String, Double.
+        let customMetadata: Dictionary<String, MixedType> = [
+            "app": .string("DemoApp"),
+            "is_demo": .bool(true),
+            "version": .double(1.1),
+        ]
+        // 
+        self.recorder.start(
+            activityType: .Walk,
+            duration: 60,
+            userInputMetadata: userInputMetadata, 
+            customMetadata: customMetadata
+        )
         
         startRecordingTimer()
     }
     
-    func startAnalyzingFlow(uuid: UUID) {
+    func startAnalyzingFlow() {
         self.recorderSubscriber?.cancel()
         
         self.analyzerSubscriber = self.recorder.analyzerState.receive(on: RunLoop.main).sink(receiveValue: { analyzerState in

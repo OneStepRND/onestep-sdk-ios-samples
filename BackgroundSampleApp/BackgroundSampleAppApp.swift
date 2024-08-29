@@ -1,15 +1,15 @@
 //
-//  OneStepSDK_SampleApp.swift
-//  OneStepSDK_SampleApp
+//  BackgroundSampleAppApp.swift
+//  BackgroundSampleApp
 //
-//  Created by David Havkin on 01/08/2024.
+//  Created by David Havkin on 22/08/2024.
 //
 
 import SwiftUI
 import OneStepSDK
 
 @main
-struct OneStepSDK_SampleApp: App {
+struct BackgroundSampleAppApp: App {
     let sdk: OSTCoreInterface
     @State var connected = false
     @State var failedToConnect = false
@@ -23,7 +23,7 @@ struct OneStepSDK_SampleApp: App {
         WindowGroup {
             VStack{
                 if connected {
-                    RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecordingService()))
+                    MainView(viewModel: BackgroundViewModel())
                 } else if failedToConnect {
                     Text("Unable to connect. Please check your internet connection or verify your API tokens.")
                         .font(.title2)
@@ -56,18 +56,48 @@ struct OneStepSDK_SampleApp: App {
                  - configuration: SDK configuration
                 */
                 let connectionResult = await OSTSDKCore.shared.initialize(
-                    appId: "6ddbcc62-5ad1-4cd1-bfa7-4e79af155309",
-                    apiKey: "my-3i3Ndsf7IAG0yB4iWAn-HVDmkWWStffQZ0p4Y5qo",
-                    distinctId: "davidPackageProd0.6.0",
-                     identityVerification: nil,
-                     configuration: OSTConfiguration(enableMonitoringFeature: false)
-                    )
+                    appId: "<YOUR-APP-ID-HERE>",
+                    apiKey: "<YOUR-API-KEY-HERE>",
+                    distinctId: "<A-UNIQUE-ID-FOR CURRENT-USER-HERE>",
+                    identityVerification: nil,
+                    configuration: OSTConfiguration(enableMonitoringFeature: true)
+                )
                 if connectionResult {
+                    print("OneStep SDK is initialized")
                     self.connected = true
                 } else {
+                    print("OneStep SDK could not initialized")
                     self.failedToConnect = true
                 }
             }
         }
+    }
+}
+
+
+struct ActivityIndicator: UIViewRepresentable {
+    typealias UIView = UIActivityIndicatorView
+    var isAnimating: Bool
+    var configuration = { (indicator: UIView) in }
+    
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIView { UIView() }
+    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<Self>) {
+        isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
+        configuration(uiView)
+    }
+}
+
+import Network
+
+class NetworkConnectionMonitor{
+    var networkConnected: Bool = false
+    
+    init() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            self.networkConnected = !(path.status != .satisfied)
+        }
+        
+        monitor.start(queue: DispatchQueue.global(qos: .background))
     }
 }

@@ -1,0 +1,33 @@
+{
+  "originHash" : "b540949e17ab43b6ad7f57b011ca3f70b83b0405a684255769552c86c3235a64",
+  "pins" : [
+    {
+      "identity" : "onestep-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/OneStepRND/onestep-sdk-ios",
+      "state" : {
+        "branch" : "main",
+        "revision" : "b4c3c56f9203ef6652f2de7069abb668fd3ba0af"
+      }
+    },
+    {
+      "identity" : "onestep-uikit-ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/OneStepRND/onestep-uikit-ios-spm",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e559da8ff58743469bf3b848ffdfc2e4df277bef"
+      }
+    },
+    {
+      "identity" : "swiftygif",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexiscreuzot/SwiftyGif.git",
+      "state" : {
+        "revision" : "4430cbc148baa3907651d40562d96325426f409a",
+        "version" : "5.4.5"
+      }
+    }
+  ],
+  "version" : 3
+}

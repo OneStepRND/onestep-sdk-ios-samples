@@ -61,7 +61,7 @@ struct OneStepUIKitExampleApp: App {
                     apiKey: "<YOUR-API-KEY-HERE>",
                     distinctId: "<A-UNIQUE-ID-FOR CURRENT-USER-HERE>",
                     identityVerification: nil,
-                    configuration: OSTConfiguration(enableMonitoringFeature: true)
+                    configuration: OSTConfiguration(enableMonitoringFeature: false)
                 )
                 if connectionResult {
                     print("OneStep SDK is initialized")

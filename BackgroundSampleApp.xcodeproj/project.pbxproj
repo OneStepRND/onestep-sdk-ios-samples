@@ -11,25 +11,10 @@
 		FA08D2512C775C1800B6672D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08D2502C775C1800B6672D /* ContentView.swift */; };
 		FA08D2532C775C1900B6672D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA08D2522C775C1900B6672D /* Assets.xcassets */; };
 		FA08D2562C775C1900B6672D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA08D2552C775C1900B6672D /* Preview Assets.xcassets */; };
+		FA4EE1AD2C80D7BC00D54A9D /* OneStepSDKiOS in Frameworks */ = {isa = PBXBuildFile; productRef = FA4EE1AC2C80D7BC00D54A9D /* OneStepSDKiOS */; };
 		FA9B05B02C775E49000FFB5F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9B05AF2C775E49000FFB5F /* MainView.swift */; };
-		FA9B05B32C775F52000FFB5F /* OneStepSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9B05B22C775F52000FFB5F /* OneStepSDK.framework */; };
-		FA9B05B42C775F52000FFB5F /* OneStepSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA9B05B22C775F52000FFB5F /* OneStepSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA9B05B82C7761EC000FFB5F /* BackgroundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9B05B72C7761EC000FFB5F /* BackgroundViewModel.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		FA9B05B52C775F52000FFB5F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				FA9B05B42C775F52000FFB5F /* OneStepSDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FA08D24B2C775C1800B6672D /* BackgroundSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BackgroundSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA9B05B32C775F52000FFB5F /* OneStepSDK.framework in Frameworks */,
+				FA4EE1AD2C80D7BC00D54A9D /* OneStepSDKiOS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,13 +97,15 @@
 				FA08D2472C775C1800B6672D /* Sources */,
 				FA08D2482C775C1800B6672D /* Frameworks */,
 				FA08D2492C775C1800B6672D /* Resources */,
-				FA9B05B52C775F52000FFB5F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = BackgroundSampleApp;
+			packageProductDependencies = (
+				FA4EE1AC2C80D7BC00D54A9D /* OneStepSDKiOS */,
+			);
 			productName = BackgroundSampleApp;
 			productReference = FA08D24B2C775C1800B6672D /* BackgroundSampleApp.app */;
 			productType = "com.apple.product-type.application";
@@ -147,6 +134,9 @@
 				Base,
 			);
 			mainGroup = FA08D2422C775C1800B6672D;
+			packageReferences = (
+				FA4EE1AB2C80D7BC00D54A9D /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */,
+			);
 			productRefGroup = FA08D24C2C775C1800B6672D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -392,6 +382,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA4EE1AB2C80D7BC00D54A9D /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OneStepRND/onestep-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA4EE1AC2C80D7BC00D54A9D /* OneStepSDKiOS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA4EE1AB2C80D7BC00D54A9D /* XCRemoteSwiftPackageReference "onestep-sdk-ios" */;
+			productName = OneStepSDKiOS;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA08D2432C775C1800B6672D /* Project object */;
 }

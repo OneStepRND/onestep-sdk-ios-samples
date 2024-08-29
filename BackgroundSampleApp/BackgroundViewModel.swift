@@ -79,21 +79,11 @@ class BackgroundViewModel: ObservableObject {
         }
     }
     
-    //Open after release of these as package
-//    func getAggregatedBGData(startTime: Date, endTime: Date) -> [OSTAggregatedBackgroundRecord] {
-//        OSTSDKCore.shared.aggregateBackgroundRecords(startTime: startTime, endTime: endTime)
-//    }
-//    
-//    func getRawBGData() -> [BackgroundRecord] {
-//        OSTSDKCore.shared.rawBackgroundRecords()
-//    }
-    
-    
     /// Access background stats like status, permission status, last collected sample, last upload time,  last pull result time, etc..
     private func updateBgStatsUI() {
         let stats = OSTSDKCore.shared.backgroundMonitoringStats()
-        // activated = stats.activated
-        // permissions = stats.hasPermissions
+        self.activated = stats.activated
+        self.permissions = stats.hasPermissions
         self.lastSample = stats.lastSampleCollected
         self.lastSync = stats.lastUploadSync
     }

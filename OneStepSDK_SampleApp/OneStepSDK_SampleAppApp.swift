@@ -56,9 +56,9 @@ struct OneStepSDK_SampleApp: App {
                  - configuration: SDK configuration
                 */
                 let connectionResult = await OSTSDKCore.shared.initialize(
-                    appId: "6ddbcc62-5ad1-4cd1-bfa7-4e79af155309",
-                    apiKey: "my-3i3Ndsf7IAG0yB4iWAn-HVDmkWWStffQZ0p4Y5qo",
-                    distinctId: "davidPackageProd0.6.0",
+                    appId: "<YOUR-APP-ID-HERE>",
+                    apiKey: "<YOUR-API-KEY-HERE>",
+                    distinctId: "<A-UNIQUE-ID-FOR CURRENT-USER-HERE>",
                      identityVerification: nil,
                      configuration: OSTConfiguration(enableMonitoringFeature: false)
                     )

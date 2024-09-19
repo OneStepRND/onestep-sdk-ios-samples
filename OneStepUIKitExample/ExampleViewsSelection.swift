@@ -12,28 +12,22 @@ import OneStepSDK
 struct ExampleViewsSelection: View {
 
     @State private var selectedItem: ExampleItem?
-    private var theme = OneStepTheme()
+    private var theme = OSTTheme()
     
     init() {
-        // Changing brand color will effect all CTA buttons, and other main
-        // components which aim to focus the user's attention.
+        // Use your brand pirmary color here.
         // Set it once and pass as EnvironmentValue to all subviews.
-        theme.brandColor = .purple
+        theme.primaryColor = .purple
     }
     
     var body: some View {
         NavigationStack {
-            VStack { 
-                List(ExampleItem.allCases) { item in
-                    Button(action: {
-                        selectedItem = item
-                    }, label: {
-                        Label(
-                            item.title,
-                            systemImage: item.systemImage
-                        )
-                    })
-                    .padding(.vertical)
+            List(ExampleItem.allCases) { item in
+                Button {
+                    selectedItem = item
+                } label: {
+                    Label(item.title, systemImage: item.systemImage)
+                        .padding(.vertical)
                 }
             }
             .navigationTitle("UIKit Examples")
@@ -48,77 +42,91 @@ struct ExampleViewsSelection: View {
 // MARK: - Private helpers
 extension ExampleViewsSelection {
     
+    /// Returns a view corresponding to the selected `ExampleItem`.
     @ViewBuilder
     private func view(for item: ExampleItem) -> some View {
         switch item {
-        case .shortWalk:
-            let config = RecordingFlowConfiguration(
-                measurementDuration: 60,
-                askForPhonePlacement: false,
-                countdownPreperation: nil,
-                voiceOverActive: true,
-                instructions: .default
-            )
-            RecordingFlow(config: config)
+        case .defaultWalk:
+            defaultWalkRecordingView()
         case .sixMinutesRecording:
-            
-            
-            RecordingFlow(
-                config: .init(
-                    measurementDuration: 360,
-                    askForPhonePlacement: true,
-                    countdownPreperation: .fiveSeconds,
-                    voiceOverActive: false,
-                    instructions: .init(
-                        title: "6 Minute Walk Test",
-                        instructions: [
-                            "The object of this test is to walk as far as possible for 6 minutes",
-                            "You will walk back and forth in this hallway.",
-                            "You are permitted to slow down, to stop, and to rest as necessary"
-                        ],
-                        hints: [
-                            "You may lean against the wall while resting"
-                        ],
-                        resource: sixMinVisualResource
-                    )
-                )
-            )
+            sixMinutesRecordingView()
         case .carelog:
-            let config = RecordingFlowConfiguration(
-                measurementDuration: 60,
-                askForPhonePlacement: false,
-                countdownPreperation: nil,
-                voiceOverActive: true,
-                instructions: .default
-            )
-            OSTCarelogScreen(config: config)
+            carelogView()
         case .measurementSummary:
-            if let measurementID = OSTSDKCore.shared.readMotionMeasurements().first?.id {
-                measurementScreen(withID: measurementID)
+            if let measurementID = OSTSDKCore.shared.readMotionMeasurements().last?.id {
+                /// Summary screen for your latest measurement
+                OSTMeasurementSummaryScreen(measurementID: measurementID, origin: .carelog) {
+                    selectedItem = nil
+                } onExit: {
+                    selectedItem = nil
+                }
             } else {
                 noWalksView
             }
         }
     }
     
-    private var sixMinVisualResource: VisualResource? {
-        guard let url = URL(string: "https://thoracicandsleep.com.au/wp-content/uploads/2022/11/IDEA-LG-COPD-Monitoring-Model-Offers-Potential-Alternative-to-6-Minute-Walk-Test-image-1.jpg") else {
-            return nil
-        }
-        return VisualResource(mediaType: .image, urlType: .url(url))
+    /// Recording flow with default settings
+    private func defaultWalkRecordingView() -> some View {
+        OSTRecordingFlow(config: OSTRecordingConfiguration())
     }
-    
-    private func measurementScreen(withID uuid: UUID) -> some View {
-        MeasurementSummaryScreen(
-            measurementUUID: uuid,
-            output: .init(onDeletion: {
-                selectedItem = nil
-            }, onQuitFlow: {
-                selectedItem = nil
-            })
+
+    /// Presents a customized recording flow for the 6-Minute Walk Test (6MWT).
+    /// This function demonstrates how to configure the recording flow and customize instructions to implement this standard test.
+    ///
+    /// Media supports images, GIFs, and videos loaded either from local resources or remote URLs.
+    ///
+    /// Attaches custom metadata with additional context to the created measurement, which is accessible via the Platform API or webhooks.
+    private func sixMinutesRecordingView() -> some View {
+        let imageURL = "https://thoracicandsleep.com.au/wp-content/uploads/2022/11/IDEA-LG-COPD-Monitoring-Model-Offers-Potential-Alternative-to-6-Minute-Walk-Test-image-1.jpg"
+        
+        let config = OSTRecordingConfiguration(
+            activityType: .walk,
+            duration: 360,
+            isCountingDown: true,
+            showPhonePositionScreen: false,
+            prepareScreenDuration: .tenSeconds,
+            playVoiceOver: true,
+            instructions: .init(
+                activityDisplayName: "6 Minute Walk Test",
+                instructions: [
+                    "The object of this test is to walk as far as possible for 6 minutes",
+                    "You will walk back and forth in this hallway.",
+                    "You are permitted to slow down, to stop, and to rest as necessary"
+                ],
+                hints: [
+                    "You may lean against the wall while resting"
+                ],
+                media: OSTVisualResource(
+                    mediaType: .image,
+                    location: .url(URL(string: imageURL)!)
+                )
+            ),
+            preRecordingQuestions: [
+                OSTPreRecordingQuestion(
+                    title: "Demo Question",
+                    options: ["tag1", "tag2"],
+                    isMultiSelect: false
+                )
+            ]
+        )
+        return OSTRecordingFlow(
+            config: config,
+            customMetadata: ["custom_activity": .string("6mwt")]
         )
     }
-    
+
+    /// Presents the Carelog screen, displaying a history of active measurements and daily aggregated background data.
+    ///
+    /// The Carelog screen allows users to review their recorded activities and background metrics. 
+    /// You can pass a custom `OSTRecordingConfiguration` to be used in the empty state call-to-action.
+    private func carelogView() -> some View {
+        return OSTCarelogScreen(
+            recordingConfiguration: OSTRecordingConfiguration(),
+            includeBackgroundData: true
+        )
+    }
+
     private var noWalksView: some View {
         VStack(spacing: 30) {
             Text("No walks found")
@@ -129,40 +137,41 @@ extension ExampleViewsSelection {
             .buttonStyle(.borderedProminent)
         }
     }
+    
 }
 
 // MARK: - Model
 extension ExampleViewsSelection {
     
     private enum ExampleItem: Identifiable, CaseIterable {
-        case shortWalk
+        case defaultWalk
         case sixMinutesRecording
         case carelog
         case measurementSummary
         
         var title: String {
             switch self {
-            case .shortWalk:
-                "Recording flow"
+            case .defaultWalk:
+                return "Recording flow: default"
             case .sixMinutesRecording:
-                "6 minutes recording"
+                return "Recording flow: 6MWT"
             case .carelog:
-                "Carelog"
+                return "Carelog"
             case .measurementSummary:
-                "Summary"
+                return "Summary"
             }
         }
         
         var systemImage: String {
             switch self {
-            case .shortWalk:
-                "figure.walk"
+            case .defaultWalk:
+                return "figure.walk"
             case .sixMinutesRecording:
-                "6.circle"
+                return "6.circle"
             case .carelog:
-                "list.clipboard"
+                return "list.clipboard"
             case .measurementSummary:
-                "gauge.open.with.lines.needle.33percent"
+                return "gauge.open.with.lines.needle.33percent"
             }
         }
         

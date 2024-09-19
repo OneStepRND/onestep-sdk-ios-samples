@@ -388,8 +388,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/OneStepRND/onestep-uikit-ios-spm";
 			requirement = {
-				kind = exactVersion;
-				version = 0.5.0;
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

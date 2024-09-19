@@ -1,23 +1,19 @@
-# OneStepSDK Sample App
+# OneStepSDK Sample Apps
 
-## Versioning
-
-![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg)
-![Alpha Version](https://img.shields.io/badge/alpha-0.4.0-red.svg)
-
-This repository contains a sample iOS application demonstrating the integration and usage of the OneStep SDK. The app showcases how to record motion data, analyze it, and display results.
+This repository contains sample iOS applications demonstrating how to integrate and use the OneStep SDK for motion analysis. The apps showcase how to record motion data, analyze it, and display the results within your own application.
 
 ## Features
 
-- Real-time motion data recording and analysis
+- Real-time motion recording and analysis
 - Data enrichment with metadata, norms, and insights
-- Calculation and display of weekly walk scores
+- Background monitoring
+- Customizable UI components (UIKit)
 
 ## Getting Started
 
-To include OneStepSDK in your iOS project, clone this repository and configure your API credentials in `OneStepSDK_SampleApp.swift`.
+Retrieve your API key from the OneStep back-office under Developers -> Settings.
 
-### Setup
+Clone this repository and configure your API credentials in `OneStepSDK_SampleApp.swift`.
 
 ```swift
 let connectionResult = await OneStepSDKCore.shared.initialize(

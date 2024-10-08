@@ -170,7 +170,7 @@ class RecorderViewModel: ObservableObject {
                 self.handleAnalysisResult(result)
             }
             
-            if (result.result_state ?? 0) > 0 {
+            if (result.result_state ?? .EMPTY_ANALYSIS) != .EMPTY_ANALYSIS {
                 // Example - enrich parameters by access OneStep buisness logic
                 await motionBusinessLogicHere(measurement: result)
                 
@@ -183,15 +183,15 @@ class RecorderViewModel: ObservableObject {
     /// Build your summary screen here
     private func handleAnalysisResult(_ result: OSTMotionMeasurement) {
         switch result.result_state {
-        case 0:
+        case .EMPTY_ANALYSIS:
             print("Empty Analysis")
             self.recorderResultText = "Empty Analysis:\nerror=\(result.error.debugDescription)"
-        case 1:
+        case .PARTIAL_ANALYSIS:
             print("Parital analysis result is available")
             let steps = result.metadata?.steps ?? 0
             let cadence = result.parameters?[OSTParamName.walkingCadence.rawValue]
             self.recorderResultText = "Partial Analysis:\nsteps=\(steps)\ncadence=\(cadence != nil ? String(cadence!) : "N/A")\n"
-        case 2:
+        case .FULL_ANALYSIS:
             print("Full analysis result is available")
             let steps = result.metadata?.steps ?? 0
             let walkScore = result.parameters?[OSTParamName.walkingWalkScore.rawValue]
@@ -269,7 +269,7 @@ class RecorderViewModel: ObservableObject {
         records = records.filter { $0.type == OSTActivityType.walk.rawValue }
         
         // filter fully analyzed recoerds
-        records = records.filter { $0.result_state == 2 }
+        records = records.filter { $0.result_state == .FULL_ANALYSIS }
         
         // fitler by calendar week (in the future the SDK will offer time filtering)
         let calendar = Calendar.current

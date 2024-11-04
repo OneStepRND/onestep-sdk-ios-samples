@@ -11,7 +11,7 @@ This repository contains sample iOS applications demonstrating how to integrate 
 
 ## Getting Started
 
-Retrieve your API key from the OneStep back-office under Developers -> Settings.
+The OneStep SDK is currently available exclusively to our customers. We provide API keys and technical documentation through our developer portals. If you're a OneStep customer, please reach out to your account representative or access your developer portal for the necessary resources and detailed instructions.
 
 Clone this repository and configure your API credentials in `OneStepSDK_SampleApp.swift`.
 
@@ -26,4 +26,4 @@ let connectionResult = await OneStepSDKCore.shared.initialize(
 
 ## Support
 
-For support, additional information, or to report issues, contact `shahar@onestep.co`.
+For support, additional information, or to report issues, contact `support@onestep.co`.

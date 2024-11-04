@@ -55,7 +55,6 @@ struct OneStepSDK_SampleApp: App {
                  - identityVerification: This parameter is optional and used for additional security. In production, it's recommended to retrieve this token from your server to ensure secure identity verification.
                  - configuration: SDK configuration
                  */
-                let connectionResult = false
                 OSTSDKCore.shared.initialize(
                     appId: "<YOUR-APP-ID-HERE>",
                     apiKey: "<YOUR-API-KEY-HERE>",

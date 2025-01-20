@@ -10,6 +10,7 @@ import OneStepSDK
 
 @main
 struct BackgroundSampleAppApp: App {
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     let sdk: OSTCoreInterface
     @State var connected = false
     @State var failedToConnect = false
@@ -65,7 +66,7 @@ struct BackgroundSampleAppApp: App {
                             print("OneStep SDK is initialized")
                             self.connected = true
                         } else {
-                            print("OneStep SDK could not initialized")
+                            print("OneStep SDK could not be initialized")
                             self.failedToConnect = true
                         }
                     }

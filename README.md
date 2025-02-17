@@ -13,13 +13,13 @@ This repository contains sample iOS applications demonstrating how to integrate 
 
 The OneStep SDK is currently available exclusively to our customers. We provide API keys and technical documentation through our developer portals. If you're a OneStep customer, please reach out to your account representative or access your developer portal for the necessary resources and detailed instructions.
 
-Clone this repository and configure your API credentials in `OneStepSDK_SampleApp.swift`.
+Clone this repository and configure your API credentials here:
 
 ```swift
-let connectionResult = await OneStepSDKCore.shared.initialize(
+OneStepSDKCore.shared.initialize(
     appId: "<YOUR-APP-ID-HERE>",
     apiKey: "<YOUR-API-KEY-HERE>",
-    distinctId: "<A-UNIQUE-ID-FOR-CURRENT-USER-HERE>",
+    distinctId: "<A-UNIQUE-ID-FOR-CURRENT-USER-HERE>",  // setup user ID here
     identityVerification: nil
 )
 ```

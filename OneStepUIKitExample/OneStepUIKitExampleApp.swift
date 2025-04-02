@@ -11,13 +11,13 @@ import OneStepSDK
 
 @main
 struct OneStepUIKitExampleApp: App {
-    
+
     @State private var connected = false
     @State private var failedToConnect = false
-    
+
     var body: some Scene {
         WindowGroup {
-            VStack{
+            VStack {
                 if connected {
                     ExampleViewsSelection()
                 } else if failedToConnect {
@@ -31,13 +31,11 @@ struct OneStepUIKitExampleApp: App {
                 }
             }
             .onAppear {
-                Task {
-                    await initializeSDK()
-                }
+                initializeSDK()
             }
         }
     }
-    
+
     /// Initialize the OneStep SDK.
     /// Retrieve your API tokens from the OneStep back-office -> Developers -> Settings.
     func initializeSDK() {
@@ -55,18 +53,18 @@ struct OneStepUIKitExampleApp: App {
             apiKey: "<YOUR-API-KEY-HERE>",
             distinctId: "<A-UNIQUE-ID-FOR CURRENT-USER-HERE>",
             identityVerification: nil,
-            configuration: OSTConfiguration(enableMonitoringFeature: true)){ connectionResult in
-                if connectionResult {
-                    print("OneStep SDK is initialized")
-                    self.connected = true
-                    print("OneStep SDK sync")
-                    Task {
-                        await OSTSDKCore.shared.sync()
-                    }
-                } else {
-                    print("OneStep SDK could not initialized")
-                    self.failedToConnect = true
+            configuration: OSTConfiguration(enableMonitoringFeature: true)) { connectionResult in
+            if connectionResult {
+                print("OneStep SDK is initialized")
+                self.connected = true
+                print("OneStep SDK sync")
+                Task {
+                    await OSTSDKCore.shared.sync()
                 }
+            } else {
+                print("OneStep SDK could not initialized")
+                self.failedToConnect = true
             }
+        }
     }
 }

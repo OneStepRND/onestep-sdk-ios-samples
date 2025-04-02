@@ -1,6 +1,6 @@
 //
-//  OneStepSDK_SampleApp.swift
-//  OneStepSDK_SampleApp
+//  OneStepSDKSampleApp.swift
+//  OneStepSDKSampleApp
 //
 //  Created by David Havkin on 01/08/2024.
 //
@@ -9,19 +9,19 @@ import SwiftUI
 import OneStepSDK
 
 @main
-struct OneStepSDK_SampleApp: App {
+struct OneStepSDKSampleApp: App {
     let sdk: OSTCoreInterface
     @State var connected = false
     @State var failedToConnect = false
     let ncm = NetworkConnectionMonitor()
-    
-    init(){
+
+    init() {
         sdk = OSTSDKCore.shared
     }
-    
+
     var body: some Scene {
         WindowGroup {
-            VStack{
+            VStack {
                 if connected {
                     RecorderView(viewModel: RecorderViewModel(recorder: self.sdk.getRecordingService()))
                 } else if failedToConnect {
@@ -29,7 +29,7 @@ struct OneStepSDK_SampleApp: App {
                         .font(.title2)
                         .padding(.top, 20)
                 } else {
-                    VStack{
+                    VStack {
                         Text("Connecting... Please wait.")
                             .font(.title2)
                             .padding(.top, 20)
@@ -41,10 +41,10 @@ struct OneStepSDK_SampleApp: App {
                 while !ncm.networkConnected {
                     print("Waiting for network...")
                 }
-                
+
                 /*
                  Initialize the OneStep SDK. You can retrieve your API tokens from OneStep back-office -> Developers -> Settings
-                 
+
                  Parameters:
                  - appId: The unique identifier for your application, provided by OneStep.
                  - apiKey: The API key associated with your OneStep account, required for authentication.
@@ -60,13 +60,13 @@ struct OneStepSDK_SampleApp: App {
                     apiKey: "<YOUR-API-KEY-HERE>",
                     distinctId: "<A-UNIQUE-ID-FOR CURRENT-USER-HERE>",
                     identityVerification: nil,
-                    configuration: OSTConfiguration(enableMonitoringFeature: false)){ connectionResult in
-                        if connectionResult {
-                            self.connected = true
-                        } else {
-                            self.failedToConnect = true
-                        }
+                    configuration: OSTConfiguration(enableMonitoringFeature: false)) { connectionResult in
+                    if connectionResult {
+                        self.connected = true
+                    } else {
+                        self.failedToConnect = true
                     }
+                }
             }
         }
     }

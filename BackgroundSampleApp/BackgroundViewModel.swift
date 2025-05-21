@@ -83,7 +83,7 @@ class BackgroundViewModel: ObservableObject {
     private func updateBgStatsUI() {
         let stats = OSTSDKCore.shared.backgroundMonitoringStats()
         self.activated = stats.activated
-        self.permissions = stats.hasPermissions
+        self.permissions = stats.hasBackgroundPermissions
         self.lastSample = stats.lastSampleCollected
         self.lastSync = stats.lastUploadSync
     }

@@ -85,7 +85,7 @@ extension ExampleViewsSelection {
             duration: 360,
             isCountingDown: true,
             showPhonePositionScreen: false,
-            prepareScreenDuration: .tenSeconds,
+            prepareScreenData: .duration(prepareDuration: .tenSeconds),
             playVoiceOver: true,
             instructions: .init(
                 activityDisplayName: "6 Minute Walk Test",
@@ -103,7 +103,7 @@ extension ExampleViewsSelection {
                 )
             ),
             preRecordingQuestions: [
-                OSTPreRecordingQuestion(
+                OSTRecordingQuestionData(
                     title: "Demo Question",
                     options: ["tag1", "tag2"],
                     isMultiSelect: false

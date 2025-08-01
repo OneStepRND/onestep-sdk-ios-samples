@@ -13,13 +13,13 @@ struct ExampleViewsSelection: View {
 
     @State private var selectedItem: ExampleItem?
     private var theme = OSTTheme()
-    
+
     init() {
         // Use your brand pirmary color here.
         // Set it once and pass as EnvironmentValue to all subviews.
         theme.primaryColor = .purple
     }
-    
+
     var body: some View {
         NavigationStack {
             List(ExampleItem.allCases) { item in
@@ -41,7 +41,7 @@ struct ExampleViewsSelection: View {
 
 // MARK: - Private helpers
 extension ExampleViewsSelection {
-    
+
     /// Returns a view corresponding to the selected `ExampleItem`.
     @ViewBuilder
     private func view(for item: ExampleItem) -> some View {
@@ -65,7 +65,7 @@ extension ExampleViewsSelection {
             }
         }
     }
-    
+
     /// Recording flow with default settings
     private func defaultWalkRecordingView() -> some View {
         OSTRecordingFlow(config: OSTRecordingConfiguration())
@@ -79,7 +79,7 @@ extension ExampleViewsSelection {
     /// Attaches custom metadata with additional context to the created measurement, which is accessible via the Platform API or webhooks.
     private func sixMinutesRecordingView() -> some View {
         let imageURL = "https://thoracicandsleep.com.au/wp-content/uploads/2022/11/IDEA-LG-COPD-Monitoring-Model-Offers-Potential-Alternative-to-6-Minute-Walk-Test-image-1.jpg"
-        
+
         let config = OSTRecordingConfiguration(
             activityType: .walk,
             duration: 360,
@@ -118,7 +118,7 @@ extension ExampleViewsSelection {
 
     /// Presents the Carelog screen, displaying a history of active measurements and daily aggregated background data.
     ///
-    /// The Carelog screen allows users to review their recorded activities and background metrics. 
+    /// The Carelog screen allows users to review their recorded activities and background metrics.
     /// You can pass a custom `OSTRecordingConfiguration` to be used in the empty state call-to-action.
     private func carelogView() -> some View {
         return OSTCarelogScreen(
@@ -137,18 +137,18 @@ extension ExampleViewsSelection {
             .buttonStyle(.borderedProminent)
         }
     }
-    
+
 }
 
 // MARK: - Model
 extension ExampleViewsSelection {
-    
+
     private enum ExampleItem: Identifiable, CaseIterable {
         case defaultWalk
         case sixMinutesRecording
         case carelog
         case measurementSummary
-        
+
         var title: String {
             switch self {
             case .defaultWalk:
@@ -161,7 +161,7 @@ extension ExampleViewsSelection {
                 return "Summary"
             }
         }
-        
+
         var systemImage: String {
             switch self {
             case .defaultWalk:
@@ -174,7 +174,7 @@ extension ExampleViewsSelection {
                 return "gauge.open.with.lines.needle.33percent"
             }
         }
-        
+
         var id: String {
             title
         }
@@ -184,4 +184,3 @@ extension ExampleViewsSelection {
 #Preview {
     ExampleViewsSelection()
 }
-

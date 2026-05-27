@@ -53,7 +53,8 @@ extension ExampleViewsSelection {
         case .carelog:
             carelogView()
         case .measurementSummary:
-            if let measurementID = OSTSDKCore.shared.readMotionMeasurements().last?.id {
+            let lastID = latestMeasurementID()
+            if let measurementID = lastID {
                 /// Summary screen for your latest measurement
                 OSTMeasurementSummaryScreen(measurementID: measurementID, origin: .carelog) {
                     selectedItem = nil
@@ -125,6 +126,12 @@ extension ExampleViewsSelection {
             recordingConfiguration: OSTRecordingConfiguration(),
             includeBackgroundData: true
         )
+    }
+
+    private func latestMeasurementID() -> UUID? {
+        guard case .success(let sdk) = OneStep.shared(),
+              case .success(let motionLab) = sdk.motionLab() else { return nil }
+        return (try? motionLab.getMeasurements(request: TimeRangedDataRequest(startTime: nil, endTime: nil)))?.last?.id
     }
 
     private var noWalksView: some View {

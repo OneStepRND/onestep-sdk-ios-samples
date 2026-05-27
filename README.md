@@ -16,11 +16,16 @@ The OneStep SDK is currently available exclusively to our customers. We provide 
 Clone this repository and configure your API credentials here:
 
 ```swift
-OneStepSDKCore.shared.initialize(
-    appId: "<YOUR-APP-ID-HERE>",
+// In AppDelegate — boot the SDK (no credentials yet)
+OneStep.registerBGTasks()
+_ = OneStep.initialize(onAuthLost: { error in print("auth lost: \(error)") })
+
+// After the user is known — identify the patient
+let sdk = try OneStep.shared().get()
+await sdk.setPatient(
     apiKey: "<YOUR-API-KEY-HERE>",
-    distinctId: "<A-UNIQUE-ID-FOR-CURRENT-USER-HERE>",  // setup user ID here
-    identityVerification: nil
+    customerPatientId: "<A-UNIQUE-ID-FOR-CURRENT-USER-HERE>",
+    identityVerification: nil   // recommended: pass an HMAC from your server in production
 )
 ```
 

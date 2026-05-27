@@ -8,12 +8,20 @@
 import UIKit
 import OneStepSDK
 
-class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
-    
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        //this function HAS to be called before didFinishLaunchingWithOptions ends to register background tasks according to Apple guidelines
-        //Otherwise it can cause a crash of the app
-        OSTSDKCore.shared.registerBGTasks()
+        // Must be called before didFinishLaunchingWithOptions returns (Apple requirement)
+        OneStep.registerBGTasks()
+
+        // Boot the SDK. Credentials are NOT passed here — they go into setPatient() in the App.
+        // On subsequent launches the SDK silently restores the previously identified patient
+        // from Keychain automatically.
+        _ = OneStep.initialize(
+            onAuthLost: { error in
+                print("OneStep auth lost: \(error)")
+            }
+        )
         return true
     }
 }

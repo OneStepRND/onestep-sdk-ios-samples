@@ -20,10 +20,7 @@ struct RecorderView: View {
                 .padding(.bottom, 70)
             
             Button(action: {
-                //Currently recording will start only when you give motion and fitness persmission and location always persmission
-                if PermissionsUtils.allPermissionsInPlace() {
-                    viewModel.startRecording()
-                }
+                viewModel.startRecording()
             }, label: {
                 Text("Start recording")
                     .font(.title)

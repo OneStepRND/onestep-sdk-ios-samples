@@ -1,13 +1,13 @@
 {
-  "originHash" : "b540949e17ab43b6ad7f57b011ca3f70b83b0405a684255769552c86c3235a64",
+  "originHash" : "df7e7747da6ace8536d7e3a3507e7f22d1ab89bcbe3da1f40ecb15c594013c47",
   "pins" : [
     {
       "identity" : "onestep-sdk-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OneStepRND/onestep-sdk-ios",
       "state" : {
-        "branch" : "main",
-        "revision" : "b4c3c56f9203ef6652f2de7069abb668fd3ba0af"
+        "revision" : "1c991ac0dca9f579df5cdc57abb13e61886d63fb",
+        "version" : "2.0.3"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OneStepRND/onestep-uikit-ios-spm",
       "state" : {
-        "branch" : "main",
-        "revision" : "e559da8ff58743469bf3b848ffdfc2e4df277bef"
+        "revision" : "e574d8716ace85d6b645ea28a3fad658d7de2c1a",
+        "version" : "2.0.3"
       }
     },
     {

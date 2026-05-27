@@ -1,0 +1,15 @@
+{
+  "originHash" : "748d792c669e051133318991a96659a5d3e30582ae31ec7f3907d03aeaddc507",
+  "pins" : [
+    {
+      "identity" : "onestep-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/OneStepRND/onestep-sdk-ios",
+      "state" : {
+        "revision" : "1c991ac0dca9f579df5cdc57abb13e61886d63fb",
+        "version" : "2.0.3"
+      }
+    }
+  ],
+  "version" : 3
+}

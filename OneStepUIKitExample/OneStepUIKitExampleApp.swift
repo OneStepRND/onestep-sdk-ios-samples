@@ -8,16 +8,40 @@
 import SwiftUI
 import OneStepUIKit
 import OneStepSDK
+import UIKit
+import CryptoKit
+
+// MARK: - AppDelegate
+
+class UIKitExampleAppDelegate: UIResponder, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Boot the SDK. Credentials are NOT passed here — they go into setPatient() below.
+        // On subsequent launches the SDK silently restores the previously identified patient
+        // from Keychain automatically.
+        _ = OneStep.initialize(
+            onAuthLost: { error in
+                print("OneStep auth lost: \(error)")
+            }
+        )
+        return true
+    }
+}
+
+// MARK: - App
 
 @main
 struct OneStepUIKitExampleApp: App {
-    
+    @UIApplicationDelegateAdaptor private var appDelegate: UIKitExampleAppDelegate
     @State private var connected = false
     @State private var failedToConnect = false
-    
+
+    private let apiKey = "<YOUR-API-KEY-HERE>"
+    private let secret = "<YOUR-IDENTITY-SECRET-HERE>"
+    private let customerPatientId = "<A-UNIQUE-ID-FOR-CURRENT-USER-HERE>"
+
     var body: some Scene {
         WindowGroup {
-            VStack{
+            VStack {
                 if connected {
                     ExampleViewsSelection()
                 } else if failedToConnect {
@@ -30,43 +54,62 @@ struct OneStepUIKitExampleApp: App {
                         .padding(.top, 20)
                 }
             }
-            .onAppear {
-                Task {
-                    await initializeSDK()
-                }
+            .task {
+                await initializeSDK()
             }
         }
     }
-    
-    /// Initialize the OneStep SDK.
-    /// Retrieve your API tokens from the OneStep back-office -> Developers -> Settings.
-    func initializeSDK() {
-        /**
+
+    /// Identify the patient with the SDK.
+    ///
+    /// V2 separates boot (AppDelegate) from patient identification (here).
+    /// If a patient was already identified on a previous launch, the SDK will
+    /// have restored their session silently during boot — we detect that and
+    /// skip calling setPatient again.
+    ///
+    /// Retrieve your API tokens from OneStep back-office -> Developers -> Settings.
+    private func initializeSDK() async {
+        guard case .success(let sdk) = OneStep.shared() else {
+            failedToConnect = true
+            return
+        }
+
+        // Silent restore: patient already identified from a previous launch.
+        if case .identified = sdk.authStateValue {
+            connected = true
+            return
+        }
+
+        /*
          Parameters:
-         - appId: The unique identifier for your application, provided by OneStep.
-         - apiKey: The API key associated with your OneStep account, required for authentication.
-         - distinctId: A unique identifier that can be purely technical without containing PII. This identifier enables synchronization of the data collected by OneStep with your existing identities. It will also be included in the Platform API (BE<->BE integration) and webhooks.
-         - Note: An identity can be connected to multiple devices simultaneously.
-         - identityVerification: *(Optional)* Used for additional security. In production, it's recommended to retrieve this token from your server to ensure secure identity verification.
-         - configuration: SDK configuration settings.
+         - apiKey: The API key associated with your OneStep account.
+         - customerPatientId: A unique identifier for the current user (can be a technical ID,
+           does not need to contain PII). Used for BE<->BE integration and webhooks.
+         - identityVerification: HMAC-SHA256 of customerPatientId signed with your secret.
+           In production, retrieve this from your server.
          */
-        OSTSDKCore.shared.initialize(
-            appId: "<YOUR-APP-ID-HERE>",
-            apiKey: "<YOUR-API-KEY-HERE>",
-            distinctId: "<A-UNIQUE-ID-FOR CURRENT-USER-HERE>",
-            identityVerification: nil,
-            configuration: OSTConfiguration(enableMonitoringFeature: true)){ connectionResult in
-                if connectionResult {
-                    print("OneStep SDK is initialized")
-                    self.connected = true
-                    print("OneStep SDK sync")
-                    Task {
-                        await OSTSDKCore.shared.sync()
-                    }
-                } else {
-                    print("OneStep SDK could not initialized")
-                    self.failedToConnect = true
-                }
-            }
+        let hmac = generateHmac(secret: secret, distinctId: customerPatientId)
+        let result = await sdk.setPatient(
+            apiKey: apiKey,
+            customerPatientId: customerPatientId,
+            identityVerification: hmac
+        )
+
+        switch result {
+        case .success:
+            print("OneStep SDK initialized")
+            Task { _ = await sdk.sync() }
+            connected = true
+        case .failure(let error):
+            print("OneStep setPatient failed: \(error)")
+            failedToConnect = true
+        }
+    }
+
+    private func generateHmac(secret: String, distinctId: String) -> String? {
+        guard !secret.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+        let key = SymmetricKey(data: Data(secret.utf8))
+        let code = HMAC<SHA256>.authenticationCode(for: Data(distinctId.utf8), using: key)
+        return Data(code).map { String(format: "%02x", $0) }.joined()
     }
 }

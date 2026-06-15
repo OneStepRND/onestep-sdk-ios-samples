@@ -392,8 +392,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/OneStepRND/onestep-sdk-ios";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				kind = exactVersion;
+				version = "2.0.7-rc2";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

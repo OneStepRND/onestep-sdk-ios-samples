@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OneStepRND/onestep-sdk-ios",
       "state" : {
-        "revision" : "1c991ac0dca9f579df5cdc57abb13e61886d63fb",
-        "version" : "2.0.3"
+        "revision" : "43c14c53ff0b4e0b8c0714bf5fbd0d36709bccad",
+        "version" : "2.0.7-rc2"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OneStepRND/onestep-uikit-ios-spm",
       "state" : {
-        "revision" : "e574d8716ace85d6b645ea28a3fad658d7de2c1a",
-        "version" : "2.0.3"
+        "revision" : "c279ee724c3a12d06c931818e90a11b6b08c2a84",
+        "version" : "2.0.7-rc2"
       }
     },
     {
